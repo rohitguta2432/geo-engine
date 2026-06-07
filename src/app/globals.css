@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0f;
+  --panel: #13131d;
+  --panel-2: #1a1a27;
+  --border: #272736;
+  --text: #e9e9f2;
+  --muted: #9a9ab2;
+  --accent: #7c6cf6;
+  --accent-2: #a855f7;
+  --good: #10b981;
+  --warn: #f59e0b;
+  --bad: #f43f5e;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel2: var(--panel-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent2: var(--accent-2);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  background-image:
+    radial-gradient(60rem 40rem at 80% -10%, rgba(124, 108, 246, 0.12), transparent),
+    radial-gradient(50rem 30rem at -10% 0%, rgba(168, 85, 247, 0.1), transparent);
+  background-attachment: fixed;
+}
+
+/* Component classes as plain CSS inside the components layer, so Tailwind
+   utilities applied in markup still override them (utilities layer wins). */
+@layer components {
+  .card {
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--panel) 82%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .btn,
+  .btn-primary,
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease,
+      opacity 0.15s ease;
+  }
+  .btn:disabled,
+  .btn-primary:disabled,
+  .btn-ghost:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid transparent;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-2);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--panel-2);
+  }
+  .input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .input::placeholder {
+    color: var(--muted);
+  }
+  .input:focus {
+    border-color: var(--accent);
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+}
+
+/* Rendered generated-content (markdown) styling. */
+.prose-geo {
+  line-height: 1.7;
+  color: var(--text);
+}
+.prose-geo h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+.prose-geo h2 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  margin: 1.5rem 0 0.5rem;
+  color: #fff;
+}
+.prose-geo h3 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin: 1.1rem 0 0.4rem;
+}
+.prose-geo p {
+  margin: 0.6rem 0;
+  color: var(--muted);
+}
+.prose-geo ul,
+.prose-geo ol {
+  margin: 0.6rem 0 0.6rem 1.2rem;
+  color: var(--muted);
+}
+.prose-geo li {
+  margin: 0.3rem 0;
+  list-style: disc;
+}
+.prose-geo ol li {
+  list-style: decimal;
+}
+.prose-geo a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.prose-geo strong {
+  color: var(--text);
+}
+.prose-geo table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+.prose-geo th,
+.prose-geo td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+}
+.prose-geo th {
+  background: var(--panel-2);
+  color: var(--text);
+  font-weight: 600;
+}
+.prose-geo td {
+  color: var(--muted);
+}
+.prose-geo code {
+  font-family: var(--font-geist-mono), monospace;
+  background: var(--panel-2);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  font-size: 0.85em;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  animation: shimmer 1.5s infinite;
+}

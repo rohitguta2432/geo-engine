@@ -49,7 +49,7 @@ src/lib/
   db.ts / repo.ts      better-sqlite3 schema + typed CRUD
   llm/                 anthropic, ollama, unified gen + JSON extraction
   engines/             answer-engine registry (claude, perplexity, openai, google-aio)
-  audit/               prompts -> run (probe+detect) -> score (SoV, gaps) -> view
+  audit/               prompts -> run (probe+detect) -> score (SoV, sources, gaps) -> view
   content/             citation-optimized asset generation + Schema.org JSON-LD
   publish/indexing.ts  Google Indexing API ping (JWT via service account)
 src/app/

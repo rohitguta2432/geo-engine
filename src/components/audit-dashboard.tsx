@@ -7,6 +7,7 @@ import type { Asset, AssetType } from "@/lib/types";
 import { engineLabel } from "@/lib/engines/labels";
 import { ScoreGauge } from "@/components/score-gauge";
 import { CompetitorTable } from "@/components/competitor-table";
+import { SourceTable } from "@/components/source-table";
 import { GapList } from "@/components/gap-list";
 import { LiftChart } from "@/components/lift-chart";
 import { ContentModal } from "@/components/content-modal";
@@ -198,6 +199,17 @@ export function AuditDashboard({ initial }: { initial: AuditView }) {
           <section className="mb-6">
             <h2 className="mb-3 text-lg font-semibold">Share of voice</h2>
             <CompetitorTable leaderboard={score.leaderboard} brand={project.brand} />
+          </section>
+
+          {/* Cited sources */}
+          <section className="mb-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Top cited sources</h2>
+              <span className="text-sm text-[var(--muted)]">
+                Domains the engines pull answers from — earn a mention to get cited
+              </span>
+            </div>
+            <SourceTable sources={score.sources} />
           </section>
 
           {/* Gaps */}

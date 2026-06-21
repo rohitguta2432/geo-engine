@@ -1,4 +1,11 @@
-import type { AuditResult, AuditScore, GapPrompt, Project } from "@/lib/types";
+import { domainRoot, host, hostMatch } from "@/lib/audit/detect";
+import type {
+  AuditResult,
+  AuditScore,
+  CitationSource,
+  GapPrompt,
+  Project,
+} from "@/lib/types";
 
 function round(n: number): number {
   return Math.round(n * 10) / 10;
@@ -63,7 +70,85 @@ export function scoreAudit(project: Project, results: AuditResult[]): AuditScore
     promptsWithBrand: brandMentions,
     leaderboard,
     gaps: findGaps(results),
+    sources: citationSources(project, results),
   };
+}
+
+/**
+ * Roll every citation URL up to its domain and rank by how often the engines
+ * cite it. Each domain is attributed to the brand, a tracked competitor (by
+ * matching the domain's root label to a competitor name), or a neutral
+ * third-party. The third-party rows are the actionable GEO target list — the
+ * external sites to earn a mention on so the engines start citing you too.
+ */
+export function citationSources(
+  project: Project,
+  results: AuditResult[],
+): CitationSource[] {
+  const brandHost = host(project.domain);
+  // Map a competitor's domain-root label back to its display name.
+  const compByRoot = new Map<string, string>();
+  for (const name of project.competitors) {
+    const root = name.trim().toLowerCase();
+    if (root) compByRoot.set(root, name);
+  }
+
+  interface Agg {
+    count: number;
+    prompts: Set<string>;
+    engines: Set<string>;
+  }
+  const byDomain = new Map<string, Agg>();
+
+  for (const r of results) {
+    // De-dupe within a single answer so one engine repeating a URL counts once.
+    const seen = new Set<string>();
+    for (const url of r.citations) {
+      const domain = host(url);
+      if (!domain || seen.has(domain)) continue;
+      seen.add(domain);
+      const agg = byDomain.get(domain) ?? {
+        count: 0,
+        prompts: new Set<string>(),
+        engines: new Set<string>(),
+      };
+      agg.count += 1;
+      agg.prompts.add(r.prompt);
+      agg.engines.add(r.engine);
+      byDomain.set(domain, agg);
+    }
+  }
+
+  const sources: CitationSource[] = Array.from(byDomain, ([domain, agg]) => {
+    let owner: CitationSource["owner"] = "third-party";
+    let ownerName: string | undefined;
+    if (brandHost && hostMatch(domain, brandHost)) {
+      owner = "brand";
+      ownerName = project.brand;
+    } else {
+      const comp = compByRoot.get(domainRoot(domain));
+      if (comp) {
+        owner = "competitor";
+        ownerName = comp;
+      }
+    }
+    return {
+      domain,
+      count: agg.count,
+      prompts: agg.prompts.size,
+      engines: Array.from(agg.engines),
+      owner,
+      ownerName,
+    };
+  });
+
+  // Most-cited first; break ties by breadth of prompts, then alphabetically.
+  return sources.sort(
+    (a, b) =>
+      b.count - a.count ||
+      b.prompts - a.prompts ||
+      a.domain.localeCompare(b.domain),
+  );
 }
 
 /**

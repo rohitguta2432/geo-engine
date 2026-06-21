@@ -5,7 +5,7 @@ Search is collapsing from ten blue links into a single AI answer. **EchoRank** m
 ## The loop
 
 1. **Audit** — generate ~12 buyer-intent queries for your category and ask each engine, recording who gets surfaced and cited.
-2. **Diagnose** — a 0–100 **Visibility Score**, a share-of-voice leaderboard, and the exact **gap prompts** where rivals win and you're invisible.
+2. **Diagnose** — a 0–100 **Visibility Score**, a share-of-voice leaderboard, a **cited-source leaderboard** (the domains the engines actually pull answers from, tagged as you / a rival / a third-party target), and the exact **gap prompts** where rivals win and you're invisible.
 3. **Generate** — one click writes citation-optimized FAQ pages, comparisons, and listicles, each with Schema.org JSON-LD.
 4. **Track** — re-run the audit after publishing to chart your lift.
 

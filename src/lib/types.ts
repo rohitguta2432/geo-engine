@@ -61,6 +61,24 @@ export interface GapPrompt {
   engines: string[];
 }
 
+/**
+ * A domain that AI answer-engines cite for this category, and who owns it.
+ * The `third-party` sources are the GEO target list: the places to earn a
+ * mention so the engines start citing you instead of only your rivals.
+ */
+export interface CitationSource {
+  domain: string;
+  /** Total times this domain was cited across all (prompt, engine) probes. */
+  count: number;
+  /** Distinct prompts whose answers cited this domain. */
+  prompts: number;
+  /** Engines that cited this domain at least once. */
+  engines: string[];
+  owner: "brand" | "competitor" | "third-party";
+  /** Brand or competitor name when `owner` is not third-party. */
+  ownerName?: string;
+}
+
 /** Aggregated scoring for an audit, computed from its results. */
 export interface AuditScore {
   visibilityScore: number;
@@ -69,6 +87,8 @@ export interface AuditScore {
   promptsWithBrand: number;
   leaderboard: { name: string; mentions: number; citations: number; share: number }[];
   gaps: GapPrompt[];
+  /** Where the engines source their answers, most-cited domain first. */
+  sources: CitationSource[];
 }
 
 /** One point in a project's visibility-over-time series. */

@@ -16,7 +16,7 @@ export function host(u: string): string {
 }
 
 /** Two hosts match if one is the other or a subdomain of it. */
-function hostMatch(a: string, b: string): boolean {
+export function hostMatch(a: string, b: string): boolean {
   if (!a || !b) return false;
   return a === b || a.endsWith(`.${b}`) || b.endsWith(`.${a}`);
 }
@@ -38,7 +38,7 @@ export function mentions(text: string, term: string): boolean {
 }
 
 /** The second-level label of a domain, e.g. myfinancial.in -> "myfinancial". */
-function domainRoot(domain: string): string {
+export function domainRoot(domain: string): string {
   const h = host(domain);
   const parts = h.split(".");
   return parts.length >= 2 ? parts[parts.length - 2] : h;

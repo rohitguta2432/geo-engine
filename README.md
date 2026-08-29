@@ -73,3 +73,11 @@ src/app/
 - **DB**: better-sqlite3 → Postgres/Supabase (repo.ts is the only file to touch).
 - **Jobs**: fire-and-forget → Inngest / queue for durability across deploys.
 - **Billing**: set Stripe envs to enable the `free / starter / growth / pro` tiers in `src/lib/plan.ts`.
+
+---
+
+### 🤝 Work with me
+
+I'm an **AI Consultant · Forward Deployed Engineer** — I embed with teams and ship AI to production: agents, MCP integrations, and LLM features, with evals proving they work.
+
+**→ [rohitraj.tech/en/hire](https://rohitraj.tech/en/hire)**
